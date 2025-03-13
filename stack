@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    stack<int> st;
+    string s;
+    
+    while (cin >> s) {
+        if (s == "PUSH") {
+            int v;
+            cin >> v;
+            st.push(v);
+        } 
+        else if (s == "POP") {
+            if (!st.empty()) {
+                st.pop();
+            }
+        } 
+        else if (s == "PRINT") {
+            if (!st.empty()) {
+                cout << st.top();
+            } else {
+                cout << "NONE";
+            }
+            cout << endl;
+        }
+    }
+    
+    return 0;
+}
