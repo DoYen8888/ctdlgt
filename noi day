@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t;
+	cin>>t;
+	while(t--){
+		priority_queue<int,vector<int>,greater<int>> pq;
+		int a;
+		cin>>a;
+		for(int i=0;i<a;i++){
+			int k;
+			cin>>k;
+			pq.push(k);
+		}
+		int tong =0;
+		int m,c,b;
+		while(pq.size()>1){
+			c= pq.top();
+			pq.pop();
+			b = pq.top();
+			pq.pop();
+		
+			m = c +b;
+			tong +=m;
+			pq.push(m);
+			
+		}
+		cout<<tong<<endl;
+	}
+	return 0;
+}
