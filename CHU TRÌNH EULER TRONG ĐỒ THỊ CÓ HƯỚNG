@@ -4,57 +4,58 @@ using namespace std;
 
 // Ham DFS kiem tra lien thong
 void dfs(int u, vector<vector<int>>& adj, vector<bool>& visited) {
-    visited[u] = true;
-    for (int v : adj[u]) {
-        if (!visited[v]) dfs(v, adj, visited);
+    visited[u] = true; // Danh dau dinh u da duoc tham
+    for (int v : adj[u]) { // Duyet tat ca cac dinh ke voi u
+        if (!visited[v]) dfs(v, adj, visited); // Neu dinh chua duoc tham, goi DFS de tham tiep
     }
 }
 
 // Ham kiem tra chu trinh Euler
 bool hasEulerianCycle(int V, vector<pair<int, int>>& edges) {
-    vector<vector<int>> adj(V + 1), revAdj(V + 1);
-    vector<int> inDeg(V + 1, 0), outDeg(V + 1, 0);
+    vector<vector<int>> adj(V + 1), revAdj(V + 1); // Danh sach ke va danh sach ke nguoc
+    vector<int> inDeg(V + 1, 0), outDeg(V + 1, 0); // Mang luu bac vao va bac ra cua moi dinh
     
+    // Duyet qua danh sach canh de tao danh sach ke va tinh bac vao, bac ra
     for (auto [u, v] : edges) {
-        adj[u].push_back(v);
-        revAdj[v].push_back(u);
-        outDeg[u]++;
-        inDeg[v]++;
+        adj[u].push_back(v); // Them canh vao danh sach ke
+        revAdj[v].push_back(u); // Them canh vao danh sach ke nguoc
+        outDeg[u]++; // Tang bac ra cua dinh u
+        inDeg[v]++; // Tang bac vao cua dinh v
     }
     
-    // Dieu kien 1: Moi dinh co inDeg == outDeg
+    // Dieu kien 1: Moi dinh phai co so bac vao bang so bac ra
     for (int i = 1; i <= V; i++) {
-        if (inDeg[i] != outDeg[i]) return false;
+        if (inDeg[i] != outDeg[i]) return false; // Neu co dinh nao khong thoa man, tra ve false
     }
     
-    // Dieu kien 2: Do thi lien thong manh
-    vector<bool> visited(V + 1, false);
-    int start = 1;
-    while (start <= V && adj[start].empty()) start++;
-    if (start > V) return true;
+    // Dieu kien 2: Do thi phai lien thong manh
+    vector<bool> visited(V + 1, false); // Mang danh dau dinh da tham
+    int start = 1; // Tim mot dinh bat dau de kiem tra lien thong
+    while (start <= V && adj[start].empty()) start++; // Bo qua cac dinh khong co canh nao
+    if (start > V) return true; // Neu khong co canh nao, do thi co chu trinh Euler
     
-    dfs(start, adj, visited);
+    dfs(start, adj, visited); // Chay DFS tren do thi goc
     for (int i = 1; i <= V; i++) {
-        if (!adj[i].empty() && !visited[i]) return false;
+        if (!adj[i].empty() && !visited[i]) return false; // Neu con dinh nao chua duoc tham, tra ve false
     }
     
-    fill(visited.begin(), visited.end(), false);
-    dfs(start, revAdj, visited);
+    fill(visited.begin(), visited.end(), false); // Reset mang visited
+    dfs(start, revAdj, visited); // Chay DFS tren do thi nguoc
     for (int i = 1; i <= V; i++) {
-        if (!revAdj[i].empty() && !visited[i]) return false;
+        if (!revAdj[i].empty() && !visited[i]) return false; // Neu con dinh nao chua duoc tham, tra ve false
     }
     
-    return true;
+    return true; // Neu thoa ca hai dieu kien, tra ve true
 }
 
 int main() {
-    int T, V, E;
+    int T, V, E; // So test case, so dinh, so canh
     cin >> T;
     while (T--) {
         cin >> V >> E;
-        vector<pair<int, int>> edges(E);
-        for (auto& [u, v] : edges) cin >> u >> v;
-        cout << (hasEulerianCycle(V, edges) ? 1 : 0) << endl;
+        vector<pair<int, int>> edges(E); // Danh sach canh
+        for (auto& [u, v] : edges) cin >> u >> v; // Nhap danh sach canh
+        cout << (hasEulerianCycle(V, edges) ? 1 : 0) << endl; // In ket qua
     }
     return 0;
 }
