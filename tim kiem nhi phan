@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Ham tim kiem nhi phan tra ve vi tri cua K hoac -1 neu khong tim thay
+int binarySearch(const vector<int>& A, int K) {
+    int left = 0, right = A.size() - 1; // Khoi tao bien trai va phai
+    
+    while (left <= right) { // Lap den khi nao trai vuot qua phai
+        int mid = left + (right - left) / 2; // Tinh chi so giua de tranh tran so nguyen
+        
+        if (A[mid] == K) return mid + 1; // Neu tim thay K, tra ve vi tri (1-based index)
+        else if (A[mid] < K) left = mid + 1; // Neu K lon hon, tim o nua phai
+        else right = mid - 1; // Neu K nho hon, tim o nua trai
+    }
+    return -1; // Neu khong tim thay, tra ve -1
+}
+
+int main() {
+    int T; // So test case
+    cin >> T;
+    while (T--) {
+        int N, K;
+        cin >> N >> K; // Nhap so phan tu N va gia tri can tim K
+        vector<int> A(N); // Khoi tao mang A co N phan tu
+        
+        for (int& x : A) cin >> x; // Nhap mang A da sap xep tang dan
+        
+        int result = binarySearch(A, K); // Goi ham tim kiem nhi phan
+        
+        if (result != -1) cout << result << endl; // Neu tim thay, in vi tri
+        else cout << "NO" << endl; // Neu khong tim thay, in "NO"
+    }
+    return 0;
+}
