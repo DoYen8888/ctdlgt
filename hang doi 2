@@ -1,0 +1,30 @@
+#include <iostream>
+#include <queue>
+#include <string>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false); // Tắt đồng bộ hóa C I/O để chạy nhanh hơn
+    cin.tie(nullptr); // Tắt flush tự động
+
+    int Q;
+    cin >> Q;
+    queue<int> q;
+    string command;
+    
+    while (Q--) {
+        cin >> command;
+        if (command == "PUSH") {
+            int x;
+            cin >> x;
+            q.push(x);
+        } else if (command == "POP") {
+            if (!q.empty()) q.pop();
+        } else if (command == "PRINTFRONT") {
+            if (q.empty()) cout << "NONE\n";
+            else cout << q.front() << '\n';
+        }
+    }
+
+    return 0;
+}
