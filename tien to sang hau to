@@ -3,62 +3,36 @@
 #include <string>
 using namespace std;
 
-// Hàm kiểm tra xem ký tự có phải là toán tử không
 bool isOperator(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
 
-// Hàm chuyển đổi biểu thức tiền tố sang hậu tố
-string prefixToPostfix(const string& prefix) {
+string prefixToPostfix(const string& exp) {
     stack<string> s;
-    int length = prefix.length();
-    
-    // Duyệt chuỗi từ phải sang trái
-    for (int i = length - 1; i >= 0; i--) {
-        if (isOperator(prefix[i])) {
-            // Kiểm tra nếu stack không đủ toán hạng
-            if (s.size() < 2) {
-                cerr << "Biểu thức tiền tố không hợp lệ!\n";
-                return "";
-            }
+    // Duyệt ngược từ phải sang trái
+    for (int i = exp.length() - 1; i >= 0; i--) {
+        char c = exp[i];
+        if (isOperator(c)) {
             string op1 = s.top(); s.pop();
             string op2 = s.top(); s.pop();
-            
-            // Tạo chuỗi hậu tố mới
-            string temp = op1 + op2 + prefix[i];
-            
-            // Đẩy kết quả vào stack
+            string temp = op1 + op2 + c;
             s.push(temp);
         } else {
-            // Nếu là toán hạng, đẩy vào stack
-            s.push(string(1, prefix[i]));
+            s.push(string(1, c));
         }
     }
-    
-    // Nếu stack không còn đúng 1 phần tử, biểu thức không hợp lệ
-    if (s.size() != 1) {
-        cerr << "Biểu thức tiền tố không hợp lệ!\n";
-        return "";
-    }
-    
-    // Phần tử cuối cùng trong stack là biểu thức hậu tố
     return s.top();
 }
 
 int main() {
-    int testCases;
-    cin >> testCases;
-    cin.ignore(); // Bỏ ký tự xuống dòng sau khi nhập số lượng test
-    
-    while (testCases--) {
-        string prefix;
-        getline(cin, prefix); // Đọc cả dòng biểu thức
-        
-        string postfix = prefixToPostfix(prefix);
-        if (!postfix.empty()) {
-            cout << postfix << endl;
-        }
-    }
+    int T;
+    cin >> T;
+    cin.ignore(); // Bỏ dòng xuống sau số T
 
+    while (T--) {
+        string exp;
+        getline(cin, exp);
+        cout << prefixToPostfix(exp) << endl;
+    }
     return 0;
 }
