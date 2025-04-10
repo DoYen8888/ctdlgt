@@ -1,0 +1,30 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Dùng mảng để lưu trước các số Catalan từ 0 đến 100
+vector<unsigned long long> catalan(101);
+
+// Hàm khởi tạo dãy số Catalan bằng quy hoạch động
+void precomputeCatalan() {
+    catalan[0] = 1;
+    for (int i = 1; i <= 100; i++) {
+        catalan[i] = 0;
+        for (int j = 0; j < i; j++) {
+            catalan[i] += catalan[j] * catalan[i - 1 - j];
+        }
+    }
+}
+
+int main() {
+    precomputeCatalan(); // Tính trước dãy số Catalan
+
+    int T;
+    cin >> T;
+    while (T--) {
+        int n;
+        cin >> n;
+        cout << catalan[n] << endl;
+    }
+    return 0;
+}
