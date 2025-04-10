@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void bubbleSortWithSteps(vector<int>& arr) {
+    int n = arr.size();
+    int step = 1;
+    bool swapped;
+
+    for (int i = 0; i < n - 1; i++) {
+        swapped = false;
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+
+        if (swapped) {
+            cout << "Buoc " << step++ << ": ";
+            for (int k = 0; k < n; k++) {
+                cout << arr[k] << " ";
+            }
+            cout << endl;
+        } else {
+            break; // Nếu không còn hoán đổi thì mảng đã được sắp xếp
+        }
+    }
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int N;
+        cin >> N;
+        vector<int> a(N);
+        for (int i = 0; i < N; i++) {
+            cin >> a[i];
+        }
+        bubbleSortWithSteps(a);
+    }
+    return 0;
+}
