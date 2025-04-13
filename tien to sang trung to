@@ -1,0 +1,49 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+// Hàm kiểm tra xem ký tự có phải toán tử không
+bool isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
+// Hàm chuyển đổi biểu thức tiền tố sang trung tố
+string prefixToInfix(const string& exp) {
+    stack<string> s;
+
+    // Duyệt từ phải sang trái
+    for (int i = exp.length() - 1; i >= 0; --i) {
+        char c = exp[i];
+
+        // Nếu là toán tử
+        if (isOperator(c)) {
+            // Lấy hai toán hạng đầu tiên trong stack
+            string op1 = s.top(); s.pop();
+            string op2 = s.top(); s.pop();
+            // Ghép thành biểu thức trung tố và đẩy lại vào stack
+            string temp = "(" + op1 + c + op2 + ")";
+            s.push(temp);
+        } else {
+            // Nếu là toán hạng thì đưa vào stack
+            s.push(string(1, c));
+        }
+    }
+
+    // Kết quả cuối cùng là phần tử còn lại trong stack
+    return s.top();
+}
+
+int main() {
+    int T;
+    cin >> T;
+    cin.ignore(); // Xóa ký tự xuống dòng sau khi nhập số T
+
+    while (T--) {
+        string exp;
+        getline(cin, exp);
+        cout << prefixToInfix(exp) << endl;
+    }
+
+    return 0;
+}
