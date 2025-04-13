@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void insertionSortSteps(vector<int>& a, int N) {
+    for (int i = 0; i < N; i++) {
+        int key = a[i];
+        int j = i - 1;
+
+        // Di chuyển các phần tử lớn hơn key sang phải
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
+            j--;
+        }
+
+        a[j + 1] = key;
+
+        // In ra bước hiện tại
+        cout << "Buoc " << i << ": ";
+        for (int k = 0; k <= i; k++) {
+            cout << a[k] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int T;
+    cin >> T;
+
+    while (T--) {
+        int N;
+        cin >> N;
+        vector<int> a(N);
+
+        for (int i = 0; i < N; i++) {
+            cin >> a[i];
+        }
+
+        insertionSortSteps(a, N);
+    }
+
+    return 0;
+}
