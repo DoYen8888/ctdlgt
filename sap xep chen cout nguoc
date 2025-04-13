@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // dùng cho reverse
+
+using namespace std;
+
+void insertionSortReverseSteps(vector<int> a, int N) {
+    vector<vector<int>> steps; // lưu từng bước là 1 dãy số nguyên
+
+    for (int i = 0; i < N; i++) {
+        int key = a[i];
+        int j = i - 1;
+
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = key;
+
+        // Lưu bước hiện tại
+        vector<int> step;
+        for (int k = 0; k <= i; k++) {
+            step.push_back(a[k]);
+        }
+        steps.push_back(step);
+    }
+
+    // In các bước theo thứ tự ngược
+    for (int i = steps.size() - 1; i >= 0; i--) {
+        cout << "Buoc " << i << ": ";
+        for (int num : steps[i]) {
+            cout << num << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int T;
+    cin >> T;
+
+    while (T--) {
+        int N;
+        cin >> N;
+        vector<int> a(N);
+        for (int i = 0; i < N; i++) {
+            cin >> a[i];
+        }
+
+        insertionSortReverseSteps(a, N);
+    }
+
+    return 0;
+}
