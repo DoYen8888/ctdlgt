@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+string phepTinh(int S, int D) {
+    if (S > 9 * D) return "-1"; // không thể có số nào thỏa mãn
+
+    vector<int> digit(D, 0);
+
+    S -= 1; // trừ trước để đảm bảo chữ số đầu không bằng 0
+
+    // gán các chữ số từ phải sang trái
+    for (int i = D - 1; i > 0; i--) {
+        if (S >= 9) {
+            digit[i] = 9;
+            S -= 9;
+        } else {
+            digit[i] = S;
+            S = 0;
+        }
+    }
+
+    digit[0] = S + 1; // gán phần còn lại +1 cho chữ số đầu tiên
+
+    string re = "";
+    for (int d : digit) re += to_string(d);
+    return re;
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int S, D;
+        cin >> S >> D;
+        cout << phepTinh(S, D) << endl;
+    }
+    return 0;
+}
