@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int res; // Kết quả tối đa
+int a[10][10]; // Ma trận điểm
+int hang[10], cot[10], cheo_chinh[20], cheo_phu[20]; // Đánh dấu vị trí đã đặt
+
+void Try(int i, int sum) {
+    for (int j = 1; j <= 8; j++) {
+        if (!hang[j] && !cot[j] && !cheo_chinh[i - j + 8] && !cheo_phu[i + j - 1]) {
+            // Đặt quân hậu tại (i, j)
+            sum += a[i][j];
+            hang[j] = cot[j] = cheo_chinh[i - j + 8] = cheo_phu[i + j - 1] = 1;
+
+            if (i == 8) res = max(res, sum); // Đã đặt đủ 8 quân hậu
+            else Try(i + 1, sum);            // Thử hàng tiếp theo
+
+            // Quay lui
+            sum -= a[i][j];
+            hang[j] = cot[j] = cheo_chinh[i - j + 8] = cheo_phu[i + j - 1] = 0;
+        }
+    }
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        res = 0;
+        for (int i = 1; i <= 8; i++)
+            for (int j = 1; j <= 8; j++)
+                cin >> a[i][j]; // Nhập điểm từng ô
+
+        memset(hang, 0, sizeof(hang));
+        memset(cot, 0, sizeof(cot));
+        memset(cheo_chinh, 0, sizeof(cheo_chinh));
+        memset(cheo_phu, 0, sizeof(cheo_phu));
+
+        Try(1, 0); // Bắt đầu từ hàng 1, tổng điểm ban đầu là 0
+        cout << res << endl;
+    }
+    return 0;
+}
