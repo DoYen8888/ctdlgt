@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, soCach;
+int cot[21], cheo_chinh[41], cheo_phu[41];
+
+void datHau(int hang) {
+    for (int j = 1; j <= n; j++) {
+        if (!cot[j] && !cheo_chinh[hang - j + n] && !cheo_phu[hang + j - 1]) {
+            // Đánh dấu vị trí đã đặt hậu
+            cot[j] = cheo_chinh[hang - j + n] = cheo_phu[hang + j - 1] = 1;
+
+            if (hang == n) soCach++;         // Đặt đủ n hàng
+            else datHau(hang + 1);           // Thử tiếp hàng tiếp theo
+
+            // Quay lui
+            cot[j] = cheo_chinh[hang - j + n] = cheo_phu[hang + j - 1] = 0;
+        }
+    }
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        cin >> n;
+        soCach = 0;
+        memset(cot, 0, sizeof(cot));
+        memset(cheo_chinh, 0, sizeof(cheo_chinh));
+        memset(cheo_phu, 0, sizeof(cheo_phu));
+        datHau(1); // Bắt đầu từ hàng 1
+        cout << soCach << endl;
+    }
+    return 0;
+}
