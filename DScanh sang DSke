@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int soDinh;
+    cin >> soDinh;
+    cin.ignore(); // Bỏ ký tự newline sau khi nhập số đỉnh
+
+    vector<vector<int>> danhSachKe(soDinh + 1); // Lưu danh sách kề cho từng đỉnh
+
+    // Đọc danh sách kề từ input
+    for (int dinh = 1; dinh <= soDinh; ++dinh) {
+        string dongNhap;
+        getline(cin, dongNhap);
+        stringstream ss(dongNhap);
+        int dinhKe;
+        while (ss >> dinhKe) {
+            danhSachKe[dinh].push_back(dinhKe);
+        }
+    }
+
+    vector<pair<int, int>> danhSachCanh;
+
+    // Tạo danh sách cạnh từ danh sách kề
+    for (int dinh = 1; dinh <= soDinh; ++dinh) {
+        for (int dinhKe : danhSachKe[dinh]) {
+            if (dinh < dinhKe) { // Tránh trùng cạnh (vì đồ thị vô hướng)
+                danhSachCanh.push_back({dinh, dinhKe});
+            }
+        }
+    }
+
+    // Sắp xếp danh sách cạnh theo thứ tự tăng dần
+    sort(danhSachCanh.begin(), danhSachCanh.end());
+
+    // In kết quả
+    for (auto canh : danhSachCanh) {
+        cout << canh.first << " " << canh.second << "\n";
+    }
+
+    return 0;
+}
