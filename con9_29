@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Hàm kiểm tra loại đường Euler: 0 - không có, 1 - đường đi Euler, 2 - chu trình Euler
+int checkEuler(int V, const vector<pair<int, int>>& edges) {
+    vector<int> degree(V + 1, 0); // Mảng bậc của các đỉnh, dùng chỉ số từ 1
+
+    for (auto edge : edges) {
+        int u = edge.first;
+        int v = edge.second;
+        degree[u]++;
+        degree[v]++;
+    }
+
+    int odd_count = 0;
+    for (int i = 1; i <= V; ++i) {
+        if (degree[i] % 2 == 1)
+            odd_count++;
+    }
+
+    if (odd_count == 0) return 2;      // Chu trình Euler
+    else if (odd_count == 2) return 1; // Đường đi Euler
+    else return 0;                     // Không tồn tại
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int V, E;
+        cin >> V >> E;
+        vector<pair<int, int>> edges;
+        for (int i = 0; i < E; ++i) {
+            int u, v;
+            cin >> u >> v;
+            edges.emplace_back(u, v);
+        }
+        cout << checkEuler(V, edges) << endl;
+    }
+    return 0;
+}
