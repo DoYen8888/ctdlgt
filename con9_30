@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int KiemTra( int V,const vector<pair<int,int>>& canh){
+	vector<int> Dinh1(V+1,0);
+	vector<int> Dinh2(V+1,0);
+	for(int i =0;i<canh.size();i++){
+		int u = canh[i].first;
+		int v = canh[i].second;
+		Dinh1[u]++;
+		Dinh2[v]++;
+	}
+
+    for(int i =1;i<=V;i++){
+    	if( Dinh1[i]!=Dinh2[i]) return 0;
+	}
+	return 1;
+}
+
+
+int main(){
+	int t;
+	cin>>t;
+	while(t--){
+		int V, E;
+		cin>>V>>E;
+		
+		vector<pair<int,int>> canh;
+		int u,v;
+		for(int i=0;i<E;i++){
+			cin>>u>>v;
+			canh.emplace_back(u,v);
+		}
+		
+		cout<<KiemTra(V,canh)<<endl;
+	}
+	return 0;
+}
