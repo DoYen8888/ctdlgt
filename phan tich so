@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void lietKe(int n, int maxSo, vector<int>& ketQua) {
+    if (n == 0) {
+        cout << "(";
+        for (int i = 0; i < ketQua.size(); ++i) {
+            cout << ketQua[i];
+            if (i < ketQua.size() - 1) cout << " ";
+        }
+        cout << ") ";
+        return;
+    }
+
+    for (int i = maxSo; i >= 1; --i) {
+        if (i <= n) {
+            ketQua.push_back(i);                  // Chọn số i
+            lietKe(n - i, i, ketQua);             // Gọi đệ quy với n còn lại và maxSo mới là i
+            ketQua.pop_back();                    // Bỏ chọn để thử số khác
+        }
+    }
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int N;
+        cin >> N;
+        vector<int> ketQua;
+        lietKe(N, N, ketQua);
+        cout << endl;
+    }
+    return 0;
+}
