@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int T, N, P, S;
+vector<int> primes, tmp;
+vector<vector<int>> ans;
+
+bool isPrime(int n) {
+    if (n < 2) return false;
+    for (int i = 2; i*i <= n; ++i)
+        if (n % i == 0) return false;
+    return true;
+}
+
+void backtrack(int idx, int sum) {
+    if (tmp.size() == N && sum == S) {
+        ans.push_back(tmp);
+        return;
+    }
+    if (tmp.size() >= N || sum >= S) return;
+
+    for (int i = idx; i < primes.size(); ++i) {
+        if (sum + primes[i] > S) break;
+        tmp.push_back(primes[i]);
+        backtrack(i + 1, sum + primes[i]);
+        tmp.pop_back();
+    }
+}
+
+int main() {
+    cin >> T;
+    while (T--) {
+        cin >> N >> P >> S;
+        primes.clear();
+        for (int i = P + 1; i <= S; ++i)
+            if (isPrime(i)) primes.push_back(i);
+
+        ans.clear(); tmp.clear();
+        backtrack(0, 0);
+
+        cout << ans.size() << '\n';
+        sort(ans.begin(), ans.end());
+        for (auto &v : ans) {
+            for (int x : v) cout << x << ' ';
+            cout << '\n';
+        }
+    }
+    return 0;
+}
