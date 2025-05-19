@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int t,n, K;
+vector<int> a,temp;
+bool ok = true;
+
+void KT( int i, int sum){
+	
+	if(sum==K){
+		ok = true;
+		cout<<"[";
+		for(int i=0;i<temp.size();i++){
+			cout<<temp[i];
+			if(i<temp.size()-1) cout<<" ";
+		}
+		cout<<"] ";
+		return;
+	}
+	
+	if(sum>K) return;
+	
+	for(int j=i;j<a.size();j++){
+		temp.push_back(a[j]);
+		KT(j+1, sum+a[j]);
+		temp.pop_back();
+	}
+	
+}
+
+int main(){
+	cin>>t;
+	while(t--){
+		cin>>n;
+		cin>>K;
+		int b[n];
+		a.clear(); temp.clear();
+		for(int i=0;i<n;i++){
+			cin>>b[i];
+			a.push_back(b[i]);
+		}
+		
+		sort(a.begin(),a.end());
+		
+		KT(0,0);
+		
+		if(!ok) cout<<"-1";
+		cout<<endl;
+		
+	}
+}
