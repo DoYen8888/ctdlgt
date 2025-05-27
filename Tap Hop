@@ -1,0 +1,22 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int KT(int n, int k,int s, int start){
+	if(s==0&&k==0) return 1;
+	if(s<=0||k==0||start >n) return 0;
+	
+	int chon_start = KT(n,k-1,s-start, start +1);
+	int bo_start = KT(n,k,s,start +1);
+	
+	return chon_start + bo_start;
+	
+}
+
+int main(){
+	int n,k,s;
+	while(cin>>n>>k>>s){
+		if(n==0&&k==0&&s==0) break;
+		cout<<KT(n,k,s,1)<<endl;
+	}
+	return 0;
+}
