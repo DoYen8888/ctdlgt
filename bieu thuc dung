@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int minSwapsToBalance(const string& s) {
+    int countLeft = 0;     // Số lượng [
+    int countRight = 0;    // Số lượng ]
+    int imbalance = 0;     // Số ] dư ra
+    int swaps = 0;         // Kết quả: số lần đổi chỗ tối thiểu
+
+    for (char c : s) {
+        if (c == '[') {
+            countLeft++;
+            if (imbalance > 0) {
+                swaps += imbalance;
+                imbalance--; // đã cân bằng được 1 ]
+            }
+        } else { // c == ']'
+            countRight++;
+            imbalance = countRight - countLeft; // số ] dư ra
+        }
+    }
+
+    return swaps;
+}
+
+int main() {
+    int T;
+    cin >> T;
+    cin.ignore(); // Bỏ dòng xuống sau số T
+
+    while (T--) {
+        string s;
+        getline(cin, s); // Đọc từng dòng chứa chuỗi
+
+        cout << minSwapsToBalance(s) << endl;
+    }
+
+    return 0;
+}
