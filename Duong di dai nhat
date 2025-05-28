@@ -1,0 +1,52 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<int> adj[20];             // Danh sách kề của đồ thị
+bool visited[20][20];            // Ma trận đánh dấu cạnh đã đi
+int res = 0;                     // Kết quả độ dài đường đi dài nhất
+
+void dfs(int u, int len) {
+    res = max(res, len);         // Cập nhật kết quả nếu len lớn hơn
+    for (int v : adj[u]) {
+        if (!visited[u][v]) {    // Nếu cạnh (u,v) chưa đi
+            visited[u][v] = visited[v][u] = true;  // Đánh dấu đã đi
+            dfs(v, len + 1);     // Gọi DFS tiếp theo
+            visited[u][v] = visited[v][u] = false; // Quay lui (backtrack)
+        }
+    }
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int N, M, u, v;
+        cin >> N >> M;
+
+        // Xoá đồ thị cũ
+        for (int i = 0; i < N; ++i)
+            adj[i].clear();
+
+        // Reset mảng visited
+        for (int i = 0; i < 20; ++i)
+            for (int j = 0; j < 20; ++j)
+                visited[i][j] = false;
+
+        // Nhập các cạnh
+        for (int i = 0; i < M; ++i) {
+            cin >> u >> v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        // Tìm đường đi dài nhất
+        res = 0;
+        for (int i = 0; i < N; ++i)
+            dfs(i, 0);
+
+        cout << res << '\n';
+    }
+    return 0;
+}
