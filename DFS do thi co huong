@@ -1,41 +1,48 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector<vector<int>> canh1(1005);
-bool visited[1005];
 
-bool kt(int a){
-	visited[a]= true;
-	cout<<a<<" ";
-	
-	for(int i=0;i<canh1[a].size();i++){	
-	int v = canh1[a][i];
-    if(!visited[v]){
-    kt(v);
-        }
-    }
+bool visit[1005];
+vector<int> adj[1005];
+vector<int> kq;
+int V,E,s;
+
+void DFS(int u){
+	visit[u] = true;
+	kq.push_back(u);
+	for(int v: adj[u]){
+		if(!visit[v]){
+		
+			DFS(v);
+		}
+	}
 }
+
 
 int main(){
-	int t;
-	cin>>t;
-	while(t--){
-	int V,E,a;
-	cin>>V>>E>>a;
-	
-	for(int i=1;i<=V;i++){
-		canh1[i].clear();
-		visited[i]= false;
-}
-
-	int u, v;
-	for(int i=0;i<E;i++){
-		cin>>u>>v;
-		canh1[u].push_back(v);
+	int T;
+	cin>>T;
+	while(T--){
+		cin>>V>>E>>s;
+		
+		for(int i =1;i<=V;i++){
+			adj[i].clear();
+			visit[i] = false;
+			
+		}
+		kq.clear();
+		
+		for( int i=0; i<E;i++){
+			int u,v;
+			cin>>u>>v;
+			adj[u].push_back(v);
+			
+		}
+		
+		DFS(s);
+	    for(int v : kq){
+	    	cout<<v<<" ";
+		}
+		cout<<endl;
 	}
-	
-	kt(a);
-	cout<<endl;
-}
-return 0;
 }
