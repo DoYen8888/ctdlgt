@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int LCS3(const vector<int>& A, const vector<int>& B, const vector<int>& C) {
+    int na = A.size(), nb = B.size(), nc = C.size();
+    int dp[101][101][101] = {};
+
+    for (int i = 1; i <= na; ++i)
+        for (int j = 1; j <= nb; ++j)
+            for (int k = 1; k <= nc; ++k)
+                if (A[i-1] == B[j-1] && B[j-1] == C[k-1])
+                    dp[i][j][k] = dp[i-1][j-1][k-1] + 1;
+                else
+                    dp[i][j][k] = max({dp[i-1][j][k], dp[i][j-1][k], dp[i][j][k-1]});
+    
+    return dp[na][nb][nc];
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int na, nb, nc, x;
+        vector<int> A, B, C;
+
+        cin >> na;
+        while (na--) { cin >> x; A.push_back(x); }
+        cin >> nb;
+        while (nb--) { cin >> x; B.push_back(x); }
+        cin >> nc;
+        while (nc--) { cin >> x; C.push_back(x); }
+
+        cout << LCS3(A, B, C) << endl;
+    }
+    return 0;
+}
