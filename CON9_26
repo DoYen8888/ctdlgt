@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+const int MAX = 1005;
+int parent[MAX];
+
+int find(int u) {
+    if (parent[u] != u) parent[u] = find(parent[u]);
+    return parent[u];
+}
+
+bool unionSet(int u, int v) {
+    int pu = find(u), pv = find(v);
+    if (pu == pv) return true; // có chu trình
+    parent[pu] = pv;
+    return false;
+}
+
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        int V, E; cin >> V >> E;
+        for (int i = 1; i <= V; ++i) parent[i] = i;
+
+        bool cycle = false;
+        for (int i = 0; i < E; ++i) {
+            int u, v; cin >> u >> v;
+            if (unionSet(u, v)) cycle = true;
+        }
+        cout << (cycle ? "YES" : "NO") << '\n';
+    }
+    return 0;
+}
