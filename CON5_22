@@ -1,0 +1,25 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+long long maxSubsetSum(const vector<int>& a) {
+    long long incl = a[0], excl = 0;
+    for (int i = 1; i < a.size(); ++i) {
+        long long new_excl = max(incl, excl);
+        incl = excl + a[i];
+        excl = new_excl;
+    }
+    return max(incl, excl);
+}
+
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        int N; cin >> N;
+        vector<int> A(N);
+        for (int i = 0; i < N; ++i) cin >> A[i];
+        cout << maxSubsetSum(A) << "\n";
+    }
+    return 0;
+}
