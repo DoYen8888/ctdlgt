@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        int N; cin >> N;
+        vector<int> A(N);
+        for (int i = 0; i < N; ++i) cin >> A[i];
+
+        vector<int> inc = A, dec = A;
+
+        for (int i = 1; i < N; ++i)
+            for (int j = 0; j < i; ++j)
+                if (A[i] > A[j])
+                    inc[i] = max(inc[i], inc[j] + A[i]);
+
+        for (int i = N - 2; i >= 0; --i)
+            for (int j = N - 1; j > i; --j)
+                if (A[i] > A[j])
+                    dec[i] = max(dec[i], dec[j] + A[i]);
+
+        int res = 0;
+        for (int i = 0; i < N; ++i)
+            res = max(res, inc[i] + dec[i] - A[i]);
+
+        cout << res << '\n';
+    }
+    return 0;
+}
