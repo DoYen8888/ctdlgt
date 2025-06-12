@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <map>
+using namespace std;
+
+struct Node {
+    int data;
+    Node *left, *right;
+    Node(int v) : data(v), left(NULL), right(NULL) {}
+};
+
+void insert(Node* &root, int u, int v, char dir, map<int, Node*> &nodes) {
+    if (!nodes[u]) nodes[u] = new Node(u);
+    if (!nodes[v]) nodes[v] = new Node(v);
+    if (!root) root = nodes[u];
+    if (dir == 'L') nodes[u]->left = nodes[v];
+    else nodes[u]->right = nodes[v];
+}
+
+void spiralOrder(Node* root) {
+    if (!root) return;
+    stack<Node*> s1, s2;
+    s1.push(root);
+    while (!s1.empty() || !s2.empty()) {
+        while (!s1.empty()) {
+            Node* cur = s1.top(); s1.pop();
+            cout << cur->data << " ";
+            if (cur->right) s2.push(cur->right);
+            if (cur->left) s2.push(cur->left);
+        }
+        while (!s2.empty()) {
+            Node* cur = s2.top(); s2.pop();
+            cout << cur->data << " ";
+            if (cur->left) s1.push(cur->left);
+            if (cur->right) s1.push(cur->right);
+        }
+    }
+}
+
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        int N; cin >> N;
+        Node* root = NULL;
+        map<int, Node*> nodes;
+        for (int i = 0; i < N; ++i) {
+            int u, v; char c;
+            cin >> u >> v >> c;
+            insert(root, u, v, c, nodes);
+        }
+        spiralOrder(root);
+        cout << '\n';
+    }
+    return 0;
+}
