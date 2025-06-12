@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int fa[1005];
+
+int find(int x) {
+    return fa[x] == x ? x : fa[x] = find(fa[x]);
+}
+
+vector<int> solve(vector<vector<int>>& edges) {
+    int n = edges.size();
+    vector<int> par(n + 1, 0), e1, e2;
+    for (auto& e : edges) {
+        int u = e[0], v = e[1];
+        if (par[v]) {
+            e1 = {par[v], v};
+            e2 = e;
+            e[1] = 0; // bỏ qua e2
+        } else par[v] = u;
+    }
+
+    for (int i = 1; i <= n; ++i) fa[i] = i;
+    for (auto& e : edges) {
+        int u = e[0], v = e[1];
+        if (v == 0) continue;
+        int fu = find(u), fv = find(v);
+        if (fu == fv) return e1.empty() ? e : e1;
+        fa[fv] = fu;
+    }
+    return e2;
+}
+
+int main() {
+    int t, n;
+    cin >> t;
+    while (t--) {
+        cin >> n;
+        vector<vector<int>> edges(n, vector<int>(2));
+        for (int i = 0; i < n; ++i)
+            cin >> edges[i][0] >> edges[i][1];
+        auto ans = solve(edges);
+        cout << ans[0] << " " << ans[1] << "\n";
+    }
+    return 0;
+}
