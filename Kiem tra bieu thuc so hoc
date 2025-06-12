@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool hasRedundantBrackets(string expr) {
+    stack<char> st;
+    for (char ch : expr) {
+        if (ch == ')') {
+            bool hasOp = false;
+            while (!st.empty() && st.top() != '(') {
+                char top = st.top(); st.pop();
+                if (top == '+' || top == '-' || top == '*' || top == '/')
+                    hasOp = true;
+            }
+            if (!st.empty()) st.pop(); // pop '('
+            if (!hasOp) return true;   // dư thừa
+        } else {
+            st.push(ch);
+        }
+    }
+    return false;
+}
+
+int main() {
+    int T; cin >> T;
+    cin.ignore(); // Bỏ dòng xuống sau số lượng test
+    while (T--) {
+        string expr;
+        getline(cin, expr);
+        cout << (hasRedundantBrackets(expr) ? "Yes" : "No") << "\n";
+    }
+    return 0;
+}
