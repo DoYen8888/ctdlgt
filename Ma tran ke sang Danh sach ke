@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    int a[n + 1][n + 1];
+
+    // Đọc ma trận kề
+    for (int i = 1; i <= n; ++i)
+        for (int j = 1; j <= n; ++j)
+            cin >> a[i][j];
+
+    // Duyệt từng hàng để tạo danh sách kề
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            if (a[i][j]) cout << j << " ";
+        }
+        cout << "\n";
+    }
+
+    return 0;
+}
