@@ -1,0 +1,16 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int binToDec(const string &s) {
+    return stoi(s, nullptr, 2); // chuyển nhị phân sang thập phân
+}
+
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        string s1, s2;
+        cin >> s1 >> s2;
+        cout << binToDec(s1) * binToDec(s2) << "\n";
+    }
+    return 0;
+}
