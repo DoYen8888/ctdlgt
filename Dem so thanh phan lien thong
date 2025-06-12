@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+#include <cstring>
+using namespace std;
+
+vector<int> a[1005];
+bool vs[1005];
+
+void dfs(int u) {
+    vs[u] = 1;
+    for (int v : a[u]) if (!vs[v]) dfs(v);
+}
+
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        int V, E, u, v, cnt = 0;
+        cin >> V >> E;
+        for (int i = 1; i <= V; ++i) a[i].clear();
+        memset(vs, 0, sizeof(vs));
+
+        while (E--) {
+            cin >> u >> v;
+            a[u].push_back(v);
+            a[v].push_back(u);
+        }
+
+        for (int i = 1; i <= V; ++i)
+            if (!vs[i]) dfs(i), ++cnt;
+
+        cout << cnt << '\n';
+    }
+}
