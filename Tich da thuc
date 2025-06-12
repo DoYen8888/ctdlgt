@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        int m, n; cin >> m >> n;
+        vector<int> P(m), Q(n);
+        for (int &x : P) cin >> x;
+        for (int &x : Q) cin >> x;
+
+        vector<int> R(m + n - 1, 0);
+        for (int i = 0; i < m; ++i)
+            for (int j = 0; j < n; ++j)
+                R[i + j] += P[i] * Q[j];
+
+        for (int i = 0; i < R.size(); ++i)
+            cout << R[i] << " ";
+        cout << "\n";
+    }
+    return 0;
+}
