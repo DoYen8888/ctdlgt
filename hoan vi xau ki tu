@@ -1,0 +1,18 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        string s;
+        cin >> s;
+        sort(s.begin(), s.end()); // Sắp xếp ban đầu theo từ điển
+        do {
+            cout << s << " ";
+        } while (next_permutation(s.begin(), s.end()));
+        cout << '\n';
+    }
+    return 0;
+}
