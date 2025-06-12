@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+#include <cstring>
+using namespace std;
+
+vector<int> adj[1005];
+bool vis[1005];
+
+void dfs(int u) {
+    vis[u] = true;
+    for (int v : adj[u])
+        if (!vis[v]) dfs(v);
+}
+
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        int N, M; cin >> N >> M;
+        for (int i = 1; i <= N; ++i) adj[i].clear();
+        while (M--) {
+            int u, v; cin >> u >> v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        int Q; cin >> Q;
+        while (Q--) {
+            int x, y; cin >> x >> y;
+            memset(vis, 0, sizeof(vis));
+            dfs(x);
+            cout << (vis[y] ? "YES" : "NO") << '\n';
+        }
+    }
+}
