@@ -1,0 +1,22 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int t;
+    cin >> t;
+    cin.ignore();  // Bỏ qua ký tự newline sau số t
+
+    for (int i = 0; i < t; ++i) {
+        int test_num;
+        string s;
+        cin >> test_num >> s;
+
+        if (next_permutation(s.begin(), s.end()))
+            cout << test_num << " " << s << endl;
+        else
+            cout << test_num << " BIGGEST" << endl;
+    }
+
+    return 0;
+}
