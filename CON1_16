@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+int N, K, C[11][11], a[11], used[11], cnt = 0;
+
+void Try(int row, int sum) {
+    if (sum > K) return;
+    if (row > N) {
+        if (sum == K) {
+            ++cnt;
+            for (int i = 1; i <= N; ++i)
+                cout << i << (i == N ? '\n' : ' ') << a[i];
+        }
+        return;
+    }
+
+    for (int col = 1; col <= N; ++col) {
+        if (!used[col]) {
+            used[col] = 1;
+            a[row] = col;
+            Try(row + 1, sum + C[row][col]);
+            used[col] = 0;
+        }
+    }
+}
+
+int main() {
+    cin >> N >> K;
+    for (int i = 1; i <= N; ++i)
+        for (int j = 1; j <= N; ++j)
+            cin >> C[i][j];
+
+    Try(1, 0);
+    cout << cnt << endl;
+    Try(1, 0);
+    return 0;
+}
