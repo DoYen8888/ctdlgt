@@ -1,33 +1,31 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
-const int MAX = 1005;
-int parent[MAX];
+int cha[1005];
 
-int find(int u) {
-    if (parent[u] != u) parent[u] = find(parent[u]);
-    return parent[u];
+int tim(int u) {
+    if (cha[u] != u) cha[u] = tim(cha[u]);
+    return cha[u];
 }
 
-bool unionSet(int u, int v) {
-    int pu = find(u), pv = find(v);
-    if (pu == pv) return true; // có chu trình
-    parent[pu] = pv;
+bool hop(int u, int v) {
+    int a = tim(u), b = tim(v);
+    if (a == b) return true; // Có chu trình
+    cha[a] = b;
     return false;
 }
 
 int main() {
-    int T; cin >> T;
-    while (T--) {
+    int t; cin >> t;
+    while (t--) {
         int V, E; cin >> V >> E;
-        for (int i = 1; i <= V; ++i) parent[i] = i;
-
-        bool cycle = false;
+        for (int i = 1; i <= V; ++i) cha[i] = i;
+        
+        bool chuTrinh = false;
         for (int i = 0; i < E; ++i) {
             int u, v; cin >> u >> v;
-            if (unionSet(u, v)) cycle = true;
+            if (hop(u, v)) chuTrinh = true;
         }
-        cout << (cycle ? "YES" : "NO") << '\n';
+        cout << (chuTrinh ? "YES\n" : "NO\n");
     }
-    return 0;
 }
