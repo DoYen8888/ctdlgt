@@ -4,35 +4,46 @@
 #include <unordered_map>
 using namespace std;
 
-void levelOrderTraversal(int N, vector<tuple<int, int, char>>& edges) {
-    unordered_map<int, pair<int, int>> tree;
-    unordered_map<int, bool> isChild;
-    for (auto& e : edges) {
-        int u = get<0>(e), v = get<1>(e);
-        if (get<2>(e) == 'L') tree[u].first = v;
-        else tree[u].second = v;
-        isChild[v] = true;
+void bfs(int soCanh, vector<tuple<int,int,char>>& canh) {
+    unordered_map<int, pair<int,int>> cay;
+    unordered_map<int,bool> laCon;
+    for(auto& e : canh) {
+        int cha = get<0>(e);
+        int con = get<1>(e);
+        char kieu = get<2>(e);
+        if(kieu == 'L') cay[cha].first = con;
+        else cay[cha].second = con;
+        laCon[con] = true;
     }
-    int root = -1;
-    for (auto& e : edges) if (!isChild[get<0>(e)]) root = get<0>(e);
-    
-    queue<int> q; q.push(root);
-    while (!q.empty()) {
-        int node = q.front(); q.pop();
-        cout << node << " ";
-        if (tree[node].first) q.push(tree[node].first);
-        if (tree[node].second) q.push(tree[node].second);
+    int goc = -1;
+    for(auto& e : canh) {
+        int cha = get<0>(e);
+        if(!laCon[cha]) goc = cha;
     }
-    cout << endl;
+
+    queue<int> hangDoi; hangDoi.push(goc);
+    while(!hangDoi.empty()) {
+        int nut = hangDoi.front(); hangDoi.pop();
+        cout << nut << " ";
+        if(cay[nut].first) hangDoi.push(cay[nut].first);
+        if(cay[nut].second) hangDoi.push(cay[nut].second);
+    }
+    cout << "\n";
 }
 
 int main() {
-    int T, N; cin >> T;
-    while (T--) {
-        cin >> N;
-        vector<tuple<int, int, char>> edges(N);
-        for (int i = 0; i < N; ++i) cin >> get<0>(edges[i]) >> get<1>(edges[i]) >> get<2>(edges[i]);
-        levelOrderTraversal(N, edges);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T; cin >> T;
+    while(T--) {
+        int N; cin >> N;
+        vector<tuple<int,int,char>> canh(N);
+        for(int i=0; i<N; ++i) {
+            int cha, con; char kieu;
+            cin >> cha >> con >> kieu;
+            canh[i] = make_tuple(cha, con, kieu);
+        }
+        bfs(N, canh);
     }
-    return 0;
 }
