@@ -1,49 +1,49 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <unordered_map>
+#include<bits/stdc++.h>
 using namespace std;
 
-void bfs(int soCanh, vector<tuple<int,int,char>>& canh) {
-    unordered_map<int, pair<int,int>> cay;
-    unordered_map<int,bool> laCon;
-    for(auto& e : canh) {
-        int cha = get<0>(e);
-        int con = get<1>(e);
-        char kieu = get<2>(e);
-        if(kieu == 'L') cay[cha].first = con;
-        else cay[cha].second = con;
-        laCon[con] = true;
-    }
-    int goc = -1;
-    for(auto& e : canh) {
-        int cha = get<0>(e);
-        if(!laCon[cha]) goc = cha;
-    }
+struct Canh{
+	int cha, con;
+	char kieu;
+};
 
-    queue<int> hangDoi; hangDoi.push(goc);
-    while(!hangDoi.empty()) {
-        int nut = hangDoi.front(); hangDoi.pop();
-        cout << nut << " ";
-        if(cay[nut].first) hangDoi.push(cay[nut].first);
-        if(cay[nut].second) hangDoi.push(cay[nut].second);
-    }
-    cout << "\n";
+void bfs(int E,vector<Canh>& canh){
+	unordered_map <int,pair<int,int>> cay;
+	unordered_map <int,bool> lacon;
+	
+	for(auto& c:canh){
+	if(	c.kieu == 'L') cay[c.cha].first = c.con;
+	else cay[c.cha].second = c.con;
+	lacon[c.con] = true;
+	}
+	int goc = -1;
+	for(auto&c:canh){
+		if(!lacon[c.cha]) goc = c.cha;
+	}
+	queue<int> q;
+	q.push(goc);
+	while(!q.empty()){
+		int nut= q.front(); q.pop();
+		cout<<nut<<" ";
+		if(cay[nut].first) q.push(cay[nut].first);
+		if(cay[nut].second) q.push(cay[nut].second);
+		
+	}
+	
+	cout<<endl;
+	
 }
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int T; cin >> T;
-    while(T--) {
-        int N; cin >> N;
-        vector<tuple<int,int,char>> canh(N);
-        for(int i=0; i<N; ++i) {
-            int cha, con; char kieu;
-            cin >> cha >> con >> kieu;
-            canh[i] = make_tuple(cha, con, kieu);
-        }
-        bfs(N, canh);
-    }
+int main(){
+	int t;
+	cin>>t;
+	while(t--){
+		int E;
+		cin>>E;
+		vector<Canh> canh(E);
+		for(int i=0;i<E;i++){
+			cin>>canh[i].cha>>canh[i].con>>canh[i].kieu;
+		}
+		bfs(E,canh);
+	}
+	return 0;
 }
