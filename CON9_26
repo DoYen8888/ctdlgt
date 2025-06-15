@@ -1,31 +1,37 @@
-#include <iostream>
+#include<bits/stdc++.h>
 using namespace std;
-
 int cha[1005];
 
-int tim(int u) {
-    if (cha[u] != u) cha[u] = tim(cha[u]);
-    return cha[u];
+
+int Tim(int u){
+	if(cha[u]!=u) cha[u] = Tim(cha[u]);
+	return cha[u];
 }
 
-bool hop(int u, int v) {
-    int a = tim(u), b = tim(v);
-    if (a == b) return true; // Có chu trình
-    cha[a] = b;
-    return false;
+bool KT(int u, int v){
+	int a = Tim(cha[u]);
+	int b = Tim(cha[v]);
+	if(a==b) return true;
+	cha[a] = b;
+	return false;
 }
-
-int main() {
-    int t; cin >> t;
-    while (t--) {
-        int V, E; cin >> V >> E;
-        for (int i = 1; i <= V; ++i) cha[i] = i;
-        
-        bool chuTrinh = false;
-        for (int i = 0; i < E; ++i) {
-            int u, v; cin >> u >> v;
-            if (hop(u, v)) chuTrinh = true;
-        }
-        cout << (chuTrinh ? "YES\n" : "NO\n");
-    }
+int main(){
+	int T;
+	cin>>T;
+	while(T--){
+		int V,E;
+		cin>>V>>E;
+		for(int i=1;i<=V;i++){
+			cha[i] = i;
+		}
+		bool chutrinh = false;
+		for(int i =0;i<E;i++){
+			int u,v;
+			cin>>u>>v;
+			if(KT(u,v) ) chutrinh = true; 
+		}
+		if(chutrinh) cout<<"YES"<<endl;
+		else cout<<"NO"<<endl;
+		
+	}
 }
