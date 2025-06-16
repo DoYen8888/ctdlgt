@@ -2,56 +2,64 @@
 #include <vector>
 #include <queue>
 #include <stack>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
-struct Node {
-    int data;
-    Node *left, *right;
-    Node(int v) : data(v), left(NULL), right(NULL) {}
+struct Canh {
+    int cha, con;
+    char kieu;
 };
 
-void insert(Node* &root, int u, int v, char dir, map<int, Node*> &nodes) {
-    if (!nodes[u]) nodes[u] = new Node(u);
-    if (!nodes[v]) nodes[v] = new Node(v);
-    if (!root) root = nodes[u];
-    if (dir == 'L') nodes[u]->left = nodes[v];
-    else nodes[u]->right = nodes[v];
-}
+void duyetXoanOc(int n, vector<Canh>& canh) {
+    unordered_map<int, pair<int,int>> cay; // cha -> {con trai, con phai}
+    unordered_map<int,bool> laCon;
 
-void spiralOrder(Node* root) {
-    if (!root) return;
-    stack<Node*> s1, s2;
-    s1.push(root);
-    while (!s1.empty() || !s2.empty()) {
-        while (!s1.empty()) {
-            Node* cur = s1.top(); s1.pop();
-            cout << cur->data << " ";
-            if (cur->right) s2.push(cur->right);
-            if (cur->left) s2.push(cur->left);
-        }
-        while (!s2.empty()) {
-            Node* cur = s2.top(); s2.pop();
-            cout << cur->data << " ";
-            if (cur->left) s1.push(cur->left);
-            if (cur->right) s1.push(cur->right);
+    for(auto& c : canh) {
+        if(c.kieu == 'L') cay[c.cha].first = c.con;
+        else cay[c.cha].second = c.con;
+        laCon[c.con] = true;
+    }
+
+    int goc = -1;
+    for(auto& c : canh) {
+        if(!laCon[c.cha]) {
+            goc = c.cha;
+            break;
         }
     }
+
+    if (goc == -1) return; // nếu không tìm được gốc thì dừng
+
+    stack<int> s1, s2;
+    s1.push(goc);
+
+    while(!s1.empty() || !s2.empty()) {
+        while(!s1.empty()) {
+            int nut = s1.top(); s1.pop();
+            cout << nut << " ";
+            // lưu ý đẩy con phải trước con trái vào s2
+            if (cay[nut].second) s2.push(cay[nut].second);
+            if (cay[nut].first) s2.push(cay[nut].first);
+        }
+        while(!s2.empty()) {
+            int nut = s2.top(); s2.pop();
+            cout << nut << " ";
+            // đẩy con trái trước con phải vào s1
+            if (cay[nut].first) s1.push(cay[nut].first);
+            if (cay[nut].second) s1.push(cay[nut].second);
+        }
+    }
+    cout << "\n";
 }
 
 int main() {
     int T; cin >> T;
-    while (T--) {
+    while(T--) {
         int N; cin >> N;
-        Node* root = NULL;
-        map<int, Node*> nodes;
-        for (int i = 0; i < N; ++i) {
-            int u, v; char c;
-            cin >> u >> v >> c;
-            insert(root, u, v, c, nodes);
-        }
-        spiralOrder(root);
-        cout << '\n';
+        vector<Canh> canh(N);
+        for(int i = 0; i < N; ++i)
+            cin >> canh[i].cha >> canh[i].con >> canh[i].kieu;
+        duyetXoanOc(N, canh);
     }
     return 0;
 }
